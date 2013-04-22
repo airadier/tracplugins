@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+       xmlns:py="http://genshi.edgewall.org/" 
+       xmlns:xi="http://www.w3.org/2001/XInclude"
+       py:strip=""> 
+       
+<xi:include href="admin.html" />
+
+<head><title>Project Properties</title></head>
+<body>
+<form class="new" id="newpro" method="post">
+    <py:if test="not project_created">
+    <h2>Make New Project</h2>
+    <fieldset>
+        <legend>Create a New Project:</legend>
+
+        <div class="field">
+            <label>Project Group:
+                <select id="group" name="group">
+                    <option py:for="co in groups" value="${co.name}">${co.label}</option>
+                </select>
+            </label>
+        </div>
+        
+    <div class="field">
+        <label>Short name:<br />
+        <input type="text" id="short_name" class="short" name="short_name" title="Used for folder name. Don't use spaces or special symbols" />
+        <em>Format: Used for folder name. Don't use spaces or special symbols</em>
+        </label>
+    </div>        
+
+    <div class="field">
+        <label>Full name:<br /> <input type="text" class="long" name="full_name" /></label>
+    </div>
+        
+    <div class="field">
+        <input type="checkbox" name="maketrac" value="1" checked="checked" id="maketrac"/><label for="maketrac">Create <strong>Trac</strong> project</label>
+    </div>
+
+    <div class="field">
+        <input type="checkbox" name="makesvn" value="1" checked="checked" id="makesvn"/><label for="makesvn">Create <strong>Subversion</strong> folder</label>
+    </div>
+
+    </fieldset>
+
+    <div class="buttons">
+        <input type="submit" name="make" value="Create project"/>
+    </div>        
+        
+    </py:if>
+    <py:if test="project_created">
+    
+    <h2>Results</h2>
+
+    <py:if test="svn_created" >
+        <h3>Subversion repository creation:</h3>
+        <py:if test="svn_error" >
+                <p class="error">Error creating SVN repository</p>
+        </py:if>
+        <py:if test="not svn_error" >
+                <p class="ok">OK</p>
+        </py:if>
+        <fieldset>
+            <legend>svnadmin output:</legend>
+            <pre class="output">$svn_output</pre>
+            <pre class="error">$svn_errors</pre>
+        </fieldset>
+    </py:if>
+
+    <py:if test="trac_created" >
+        <h3>Trac environment creation:</h3>
+        <py:if test="trac_error" >
+            <p class="error">Error creating Trac environment</p>
+        </py:if>
+        <py:if test="not trac_error" >
+            <p class="ok">OK</p>
+        </py:if>    
+        <fieldset>
+            <legend>trac-admin output:</legend>
+            <pre class="output">$trac_output</pre>
+            <pre class="error">$trac_errors</pre>
+        </fieldset>
+    </py:if>
+
+    <div class="buttons">
+    <input type="submit" name="back" value="Back"/>
+    </div>            
+    </py:if>
+
+</form>
+</body>
+</html>

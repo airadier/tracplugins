@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:py="http://genshi.edgewall.org/"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    py:strip="">
+
+    <body py:match="body" py:attrs="select('@*')" once="true">
+        <div py:match="div[@id='siteheader']" py:attrs="select('@*')" once="true">
+            <div py:match="div[@id='banner']" py:attrs="select('@*')" once="true">
+                <div py:match="div[@id='header']" py:attrs="select('@*')" once="true">
+                    <a id='favbutton' href='javascript:makeFavourite("${href.makefavourite()}")'>
+                        <py:choose test="">
+                          <py:when test="is_favourite"><img id='favimg' src="${href('chrome', 'tracprojectmanager', 'img', 'favy.png')}" style='margin:0px; display:inline;'/></py:when>
+                          <py:otherwise><img id='favimg' src="${href('chrome', 'tracprojectmanager', 'img', 'favn.png')}" style='margin:0px; display:inline;'/></py:otherwise>
+                        </py:choose>
+                    </a>
+                    ${select('*')}
+                </div>
+                ${select('*')}
+            </div>
+            ${select('*')}
+        </div>
+        ${select('*')}
+    </body>
+
+    <xi:include href="${base_template}" />
+
+
+</html>

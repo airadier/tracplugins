@@ -1,0 +1,35 @@
+form .long {
+    width: 450px;
+}
+
+form .checktag {
+	margin: 10px;
+	float: left;
+}
+
+form .multiline {
+    width: 500px;
+	height: 150px;
+}
+
+form .field {
+	margin-top: 10px;
+}
+
+.output {
+	font-size: 10px;
+	color: #444;
+}
+
+pre.error {
+	font-size: 10px;
+	color: #800;
+}
+
+p.error {
+	color: #B00;
+}
+
+p.ok {
+	color: #040;
+}

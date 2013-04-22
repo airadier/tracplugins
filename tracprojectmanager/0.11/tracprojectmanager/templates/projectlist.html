@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+       xmlns:py="http://genshi.edgewall.org/" 
+       xmlns:xi="http://www.w3.org/2001/XInclude"
+       py:strip=""> 
+<xi:include href="layout.html" />
+
+<head>
+</head>
+
+<body>
+<div id="content" class="projectlist">
+
+    <h1>Project list</h1>
+    <form id="filter" method="post">
+    <fieldset id="filters">
+        <legend>Filters:</legend>
+        <div class="field">
+        Status: 
+            <select id="status" name="status">
+                <py:for each="st in statuses">
+                <option value="${st.name}" py:if="st.selected" selected="selected">${st.label}</option>
+                <option value="${st.name}" py:if="not st.selected">${st.label}</option>
+                </py:for>
+            </select>
+        </div>
+        <div class="field">
+        Tags: 
+            <div>
+                <div class="checktag" py:for="tag in all_tags" py:with="checked=tag in selected_tags">
+                    <py:if test="checked"><input type="checkbox" name="tags" id="tag_${tag}" value="${tag}" checked="checked"/><label for="tag_${tag}">${tag}</label></py:if>
+                    <py:if test="not checked"><input type="checkbox" name="tags" id="tag_${tag}" value="${tag}"/><label for="tag_${tag}">${tag}</label></py:if>
+                </div>
+            </div>        
+        </div>
+    </fieldset>
+    <div class="buttons">
+        <input type="hidden" name="order" value="$order" />
+        <input type="hidden" name="desc" value="$desc" />
+        <input type="submit" name="update" value="Update" />
+    </div>            
+    </form>
+
+    <form id="action" method="post">
+    <div class="projectgroup" py:for="status in statuses[1:]" py:if="projects[status.name]" style="clear:both">
+        <h2>Status: ${status.label}</h2>
+        
+        <table class="listing projectslist" >
+            <thead> <tr>
+                <th><a href="?order=name&amp;desc=${'1' if order=='name' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Name">Project</a></th>
+                <th><a href="?order=company&amp;desc=${'1' if order=='company' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Company">Company</a></th>
+                <th><a href="?order=created&amp;desc=${'1' if order=='created' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Creation Date">Created</a></th>
+                <th><a href="?order=started&amp;desc=${'1' if order=='started' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Start Date">Started</a></th>
+                <th><a href="?order=scheduled&amp;desc=${'1' if order=='scheduled' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Scheduled Date">Scheduled</a></th>
+                <th><a href="?order=finished&amp;desc=${'1' if order=='finished' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Finished Date">Finished</a></th>
+                <th><a href="?order=percent_finished&amp;desc=${'1' if order=='percent_finished' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Percent">%</a></th>
+                <th><a href="?order=client&amp;desc=${'1' if order=='client' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Client">Client</a></th>
+                <th><a href="?order=manager&amp;desc=${'1' if order=='manager' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Manager">Manager</a></th>
+                <th><a href="?order=last_login&amp;desc=${'1' if order=='last_login' and not desc else '0'}${status and '&amp;status=%s' % status or ''}" title="Sort by Activity">Last Activity</a></th>
+                <th>&nbsp;</th>
+            </tr></thead>        
+            <tbody>
+                <py:for each="project in projects[status.name]">
+                <tr>
+                    <td class="title" colspan="12"> 
+                        <input py:if="project.checked" type="checkbox" name="checked_${project.shortname}" checked="checked"/>
+                        <input py:if="not project.checked" type="checkbox" name="checked_${project.shortname}"/>
+                        
+                        <a href='${project.href}' title='${project.name} - ${project.description}'>${project.name}</a>
+                        <span py:if="project.tags" class="projecttags">
+                            [ <py:for each="i, tag in enumerate(project.tags)"><py:if test="i != 0"> | </py:if>${tag}</py:for> ]
+                        </span>                        
+                        <div py:if="project.upgraded">${project.upgraded}</div>
+                        <div py:if="not project.upgraded and project.needs_upgrade"><small>Needs upgrade</small></div>
+                    </td>
+                </tr><tr>
+                    <td></td>
+                    <td>${project.company}</td>
+                    <td>${project.created and project.created.strftime('%d/%m/%Y') or ''}</td>
+                    <td>${project.started and project.started.strftime('%d/%m/%Y') or ''}</td>
+                    <td>${project.scheduled and project.scheduled.strftime('%d/%m/%Y') or ''}</td>
+                    <td>${project.finished and project.finished.strftime('%d/%m/%Y') or ''}</td>
+                    <td class="percent">
+                        <table class="progress">
+                           <tr>
+                            <td class="closed" style="width: ${project.percent_finished}%"></td>
+                            <td class="open" style="width: ${project.percent_remaining}%"></td>
+                           </tr>
+                        </table>
+                        <div class="percentnumber">${project.percent_finished}%</div>
+                    </td>
+                    <td>${project.client}</td>
+                    <td><py:for each="i, manager in enumerate(project.manager)"><py:if test="i != 0"><br/></py:if>${manager}</py:for></td>
+                    <td>${project.last_login and project.last_login.strftime('%d/%m/%Y') or ''}</td>
+                    <td><a href="${project.adminurl}" target="_blank" style="border: 0"><img id='mngimg' src="${href('chrome', 'tracprojectmanager', 'img', 'wrench_icon.png')}" alt="Manage project" style='margin:0px; display:inline; border: 0;'/></a></td>
+                </tr>
+                </py:for>
+            </tbody>
+        </table>
+    </div>
+    <input type="submit" name="upgrade" value="Upgrade selected projects" />
+    </form>
+
+    
+</div>
+</body>
+
+</html>
+
