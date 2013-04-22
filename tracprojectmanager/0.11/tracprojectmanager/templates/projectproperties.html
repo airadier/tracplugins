@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+       xmlns:py="http://genshi.edgewall.org/" 
+       xmlns:xi="http://www.w3.org/2001/XInclude"
+       py:strip=""> 
+       
+<xi:include href="admin.html" />
+
+<head><title>Project Properties</title></head>
+<body>
+<form class="mod" id="modpro" method="post">
+<py:if test="database_ok">
+    <fieldset>
+        <legend>Project Tags</legend>
+        <div class="field">
+            <em>Check tags, or enter list of new tags (separated by blanks):</em><br/>
+            <div>
+                <div class="checktag" py:for="tag in admin.all_tags" py:with="checked=tag in admin.project.tags">
+                    <py:if test="checked"><input type="checkbox" name="tags" id="tag_${tag}" value="${tag}" checked="checked"/><label for="tag_${tag}">${tag}</label></py:if>
+                    <py:if test="not checked"><input type="checkbox" name="tags" id="tag_${tag}" value="${tag}"/><label for="tag_${tag}">${tag}</label></py:if>
+                </div>
+            </div>
+            <div style="clear:both">
+            <label>New tags:<br/> <input type="text" class="long" name="more_tags" value="" /></label>
+            </div>
+        </div>    
+    </fieldset>
+    <fieldset>
+        <legend>Project Properties:</legend>
+    <div class="field">
+        <label>Status:
+        <select id="status" name="status">
+        <py:for each="st in admin.project.statuses">
+            <py:if test="st.selected"><option value="${st.name}" selected="selected">${st.label}</option></py:if>
+            <py:if test="not st.selected"><option value="${st.name}">${st.label}</option></py:if>
+        </py:for>            
+        </select>-</label><label> <input type="text" name="percent" value="${admin.project.percent}" style="width: 40px;" /> %
+        </label>
+    </div>
+    <div class="field">
+        <label>Company:<br /> <input type="text" class="long" name="company" value="${admin.project.company}" /></label>
+    </div>
+    <div class="field">
+        <label>Started:<br />
+        <input type="text" id="date_started" class="date" name="date_started" size="${len(admin.date_hint)}" value="${admin.project.date_started}" title="Format: ${admin.date_hint}" />
+        <em>Format: ${admin.date_hint}</em>
+        </label>
+    </div>
+    <div class="field">
+        <label>Scheduled to:<br />
+        <input type="text" id="date_scheduled" class="date" name="date_scheduled" size="${len(admin.date_hint)}" value="${admin.project.date_scheduled}" title="Format: ${admin.date_hint}" />
+        <em>Format: ${admin.date_hint}</em>
+        </label>
+    </div>
+        
+    <div class="field">
+        <label>     
+        Closed:<br />
+        <input type="text" id="date_finished" class="date" name="date_finished" size="${len(admin.date_hint)}" value="${admin.project.date_finished}" title="Format: ${admin.date_hint}" />
+        <em>Format: ${admin.date_hint}</em>
+        </label>
+    </div>
+
+    <div class="field">
+        <label>Client:<br /> <input type="text" class="long" name="client" value="${admin.project.client}" /></label>
+    </div>
+        
+    <div class="field">
+        <label>Manager:<br /> <input type="text" class="long" name="manager" value="${admin.project.manager}" /></label>
+        <em>Space separated list of Trac user names</em>
+    </div>
+
+
+    </fieldset>
+    <div class="buttons">
+    <input type="submit" name="save" value="Apply changes"/>
+    </div>
+</py:if>
+<div py:if="not database_ok">
+    <p>Project Manager properties database tables are missing.</p>
+    <div class="buttons">
+    <input type="submit" name="createdb" value="Create Tables"/>
+    </div>
+</div>    
+</form>
+</body>
+</html>

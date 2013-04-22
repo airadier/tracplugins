@@ -1,0 +1,47 @@
+/* Apply icon background-image twice to avoid hover-flicker in IE/Win */
+
+dl.lastevents { line-height: 1.3em; margin-left: 1em }
+dl.lastevents dt { background: 3px 4px no-repeat; padding: 0 }
+
+dl.lastevents dt :link, dl.lastevents dt :visited {
+ background: 3px 3px no-repeat;
+ border: none;
+ color: #000;
+ padding: 0 4px 2px 22px;
+}
+
+dl.lastevents dt>:link, dl.lastevents dt>:visited {
+ /* Hide from IE/Win */
+ background-position: 3px 4px;
+}
+
+dl.lastevents dt :link:hover, dl.lastevents dt :visited:hover { 
+	background-color: #eed; color: #000;
+}
+
+dl.lastevents dt em {
+ border-bottom: 1px dotted #bbb;
+ color: #b00;
+ font-style: normal;
+ text-decoration: none;
+}
+
+
+dl.lastevents dt .time { color: #999; font-size: 80%; }
+dl.lastevents dt .author { color: #666; }
+dl.lastevents dd { 
+ font-size: 80%;
+ margin: 0 0 .75em 5.5em;
+ padding: 0;
+ color: #776;
+}
+
+dt.changeset, dt.changeset a { background-image: url(../../common/changeset.png) !important }
+dt.newticket, dt.newticket a { background-image: url(../../common/newticket.png) !important }
+dt.reopenedticket, dt.reopenedticket a { background-image: url(../../common/newticket.png) !important }
+dt.editedticket, dt.editedticket a { background-image: url(../../common/editedticket.png) !important }
+dt.closedticket, dt.closedticket a { background-image: url(../../common/closedticket.png) !important }
+dt.wiki, dt.wiki a { background-image: url(../../common/wiki.png) !important }
+dt.milestone, dt.milestone a { background-image: url(../../common/milestone.png) !important }
+dt.attachment, dt.attachment a { background-image: url(../../common/attachment.png) !important }
+

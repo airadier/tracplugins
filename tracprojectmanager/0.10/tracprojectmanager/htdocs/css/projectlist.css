@@ -1,0 +1,53 @@
+.percent {
+    font-size: 10px;
+    text-align: center;     
+    width: 80px;
+    margin: 0.2em;
+    padding: 0.5em;
+}
+
+.percent p {
+    margin: 0px;
+}
+
+table.progress {
+ border: 1px solid #d7d7d7;
+ border-collapse: collapse;
+ border-spacing: 0;
+ margin: 5px;
+ padding: 0px;
+ empty-cells: show;
+ width: 100%;
+ height: 10px;
+}
+
+
+table.projectslist tbody td {
+    font-size: 10px;
+    
+   padding: 0.1em;
+   margin: 0.1em;
+   vertical-align: middle;    
+   text-align: center;
+}
+
+table.projectslist td.title {
+    font-size: 12px;
+    width: 200px;
+    text-align: left;
+}
+
+table.progress tbody td, table.progress tbody th {
+ border: 0;
+ padding: 0;
+ margin: 0;
+}
+
+table.progress td { background: #fff; padding: 0 }
+table.progress td.closed { background: #bae0ba }
+table.progress td :hover { background: none }
+
+.buttons { float: right; margin-top: .5em }
+.buttons input { margin: .5em }
+hr { clear: both; margin: 0; visibility: hidden }
+
